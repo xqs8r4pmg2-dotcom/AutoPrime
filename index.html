@@ -105,7 +105,13 @@ const WA_NUM = "819000000000";
 </div>
 
 <script>
-const SYSTEM = `Voce e o Max, assistente virtual da AutoPrime Estetica Automotiva — especializada em estetica e protecao de veiculos de alto padrao no Japao.
+function getDateContext(){
+  const d = new Date();
+  const weekday = d.toLocaleDateString('pt-BR',{weekday:'long'});
+  const full = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+  return `DATA DE HOJE: ${weekday}, ${full}\nUse esta data como referencia exata para calcular corretamente qualquer dia da semana mencionado pelo cliente (hoje, amanha, "sabado que vem", datas especificas, etc). NUNCA adivinhe ou calcule o dia da semana de cabeca — baseie-se sempre nesta data de hoje informada aqui.\n\n`;
+}
+const SYSTEM = getDateContext() + `Voce e o Max, assistente virtual da AutoPrime Estetica Automotiva — especializada em estetica e protecao de veiculos de alto padrao no Japao.
 Tom: descontraido mas profissional, direto, conhecimento tecnico sem ser arrogante. Emojis com moderacao.
 
 SERVICOS E PRECOS (em iene):
@@ -129,9 +135,15 @@ TEMPO MEDIO: polimento simples 4h | coating 8h | detail completo 1 dia
 PAGAMENTOS: Pix, transferencia bancaria japonesa, cartao
 BUSCA E ENTREGA: disponivel para servicos acima de 50000 yen (raio 20km)
 
-AGENDAMENTO: colete nome, veiculo (marca/modelo/ano), servico, dia e horario. Confirme e diga que especialista entrara em contato.
+AGENDAMENTO: colete nome, veiculo (marca/modelo/ano), servico, profissional preferido (ou "qualquer"), dia (calcule a data exata no formato AAAA-MM-DD usando a DATA DE HOJE informada acima) e horario (HH:MM). Repita e confirme todos os detalhes verbalmente com o cliente ANTES de chamar a ferramenta.
 
-ESCALADA: quando cliente quiser fechar ou tiver duvida tecnica complexa, diga: "Vou conectar voce com um dos nossos especialistas agora! Aguarda um momento que ja entram em contato."
+Quando o cliente confirmar, use a ferramenta reservar_horario com os dados coletados (no campo servico, inclua tambem o veiculo).
+
+Se a ferramenta retornar sucesso=true: diga "Vou conectar voce com um dos nossos especialistas agora! Aguarda um momento que ja entram em contato." e informe qual profissional foi confirmado.
+
+Se a ferramenta retornar sucesso=false com alternativas: peca desculpas educadamente, explique que esse horario acabou de ser reservado por outro cliente, e apresente as alternativas retornadas de forma clara. Pergunte qual o cliente prefere e chame a ferramenta novamente com a escolha.
+
+NUNCA diga que um agendamento esta confirmado sem antes ter chamado a ferramenta reservar_horario e recebido sucesso=true. Isso e obrigatorio.
 
 Responda em portugues brasileiro. Seja objetivo.`;
 
@@ -148,22 +160,22 @@ function init(){
   document.getElementById('wa').href=`https://wa.me/${WA_NUM}`;
 }
 function now(){return new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
-function show(id){const el=document.getElementById(id);if(el){el.classList.add('on');scroll()}}
-function scroll(){const a=document.getElementById('anc');if(a)setTimeout(()=>a.scrollIntoView({behavior:'smooth',block:'end'}),50)}
+function show(id){const el=document.getElementById(id);if(!el)return;requestAnimationFrame(()=>requestAnimationFrame(()=>{el.classList.add('on');scroll()}))}
+function scroll(){const a=document.getElementById('anc');if(a)a.scrollIntoView({behavior:'auto',block:'end'})}
 function addMsg(role,text){
   msgCount++;const id='m'+msgCount;const c=document.getElementById('msgs');const anc=document.getElementById('anc');
   const row=document.createElement('div');row.id=id;row.className='mr'+(role==='u'?' u':'');
   const t=now();const html=text.replace(/\n/g,'<br>');
   if(role==='b'){row.innerHTML=`<div class="ma">🚗</div><div><div class="bb b">${html}</div><div class="mt">${t}</div></div>`}
   else{row.innerHTML=`<div><div class="bb u">${html}</div><div class="mt r">${t} ✓✓</div></div>`}
-  c.insertBefore(row,anc);setTimeout(()=>show(id),30);
+  c.insertBefore(row,anc);show(id);
 }
 async function send(text){
   const inp=document.getElementById('inp');const msg=text||inp.value.trim();if(!msg)return;
   document.getElementById('qr').style.display='none';addMsg('u',msg);inp.value='';inp.style.height='auto';upd();
   hist.push({role:'user',content:msg});document.getElementById('tp').classList.add('on');scroll();
   try{
-    const res=await fetch(WORKER,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-5',max_tokens:1000,system:SYSTEM,messages:hist.slice(-12)})});
+    const res=await fetch(WORKER,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-5',max_tokens:1000,system:SYSTEM,messages:hist.slice(-12),business:'autoprime'})});
     document.getElementById('tp').classList.remove('on');
     const raw=await res.text();let reply='';let apiErrMsg='';
     try{const data=JSON.parse(raw);if(data.error){apiErrMsg=data.error.message||JSON.stringify(data.error);throw new Error(apiErrMsg)}reply=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim()}
