@@ -4,8 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>AutoPrime • Atendimento Online</title>
-<link rel="apple-touch-icon" sizes="180x180" href="icone-autoprime.png">
-<link rel="icon" type="image/png" href="icone-autoprime.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -22,7 +20,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .hinfo{flex:1}.hname{color:#E8F4FF;font-weight:800;font-size:16px}.hsub{color:var(--acc);font-size:11px;margin-top:2px;font-weight:500}
 .hbadge{background:rgba(74,158,255,.12);border:1px solid rgba(74,158,255,.3);border-radius:20px;padding:4px 10px;font-size:10px;color:var(--acc);font-weight:600;display:flex;align-items:center;gap:5px}
 .hbadge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pu 1.5s infinite}
-.svcs{display:flex;gap:6px;margin-top:12px;overflow-x:auto;padding-bottom:2px}
+.langsw{display:flex;gap:6px;margin-top:10px}
+.lgb{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:4px 9px;font-size:15px;cursor:pointer;opacity:.5;transition:all .15s;line-height:1}
+.lgb.active{opacity:1;background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.55)}
+.svcs{display:flex;gap:6px;margin-top:10px;overflow-x:auto;padding-bottom:2px}
 .svcs::-webkit-scrollbar{display:none}
 .sc{flex-shrink:0;background:#0a1628;border:1px solid #1a3050;border-radius:10px;padding:5px 10px;cursor:pointer}
 .sc .sn{color:#ccc;font-size:10px;font-weight:600}.sc .sp{color:var(--acc);font-size:9px;font-weight:700;margin-top:1px}
@@ -36,7 +37,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .bb.b{background:var(--bg3);border:1px solid #1a2a3a;color:var(--text);border-bottom-left-radius:3px}
 .bb.u{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;border-bottom-right-radius:3px}
 .mt{font-size:9px;color:#1a3050;margin-top:3px;padding:0 4px}.mt.r{text-align:right}
-.tp{display:none;align-items:flex-end;gap:7px}.tp.on{display:flex}
+.tp{display:flex;align-items:flex-end;gap:7px}
 .tb{background:var(--bg3);border:1px solid #1a2a3a;border-radius:16px 16px 16px 3px;padding:11px 14px;display:flex;gap:5px;align-items:center}
 .d{width:7px;height:7px;border-radius:50%;background:var(--acc);opacity:.35;animation:bn 1.2s ease-in-out infinite}
 .d:nth-child(2){animation-delay:.2s}.d:nth-child(3){animation-delay:.4s}
@@ -61,7 +62,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <body>
 <script>
 const WORKER = "https://agente-proxy.wnwkv4g7hw.workers.dev";
-const WA_NUM = "819000000000";
 </script>
 
 <div class="hd">
@@ -69,6 +69,11 @@ const WA_NUM = "819000000000";
     <div class="av">🚗</div>
     <div class="hinfo"><div class="hname">AutoPrime</div><div class="hsub">Max • Assistente Virtual</div></div>
     <div class="hbadge">Online</div>
+  </div>
+  <div class="langsw" id="langsw">
+    <button class="lgb" data-lang="pt" onclick="switchLang('pt')">🇧🇷</button>
+    <button class="lgb" data-lang="ja" onclick="switchLang('ja')">🇯🇵</button>
+    <button class="lgb" data-lang="en" onclick="switchLang('en')">🇬🇧</button>
   </div>
   <div class="svcs" id="svcs"></div>
 </div>
@@ -100,19 +105,131 @@ const WA_NUM = "819000000000";
   </div>
   <a class="wa" id="wa" href="#" target="_blank" rel="noopener">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    Falar com especialista no WhatsApp
+    <span id="waText">Falar com especialista no WhatsApp</span>
   </a>
   <div class="foot">AutoPrime • Powered by Claude AI</div>
 </div>
 
 <script>
+const I18N = {
+  pt: {
+    greeting: "Olá! Bem-vindo à AutoPrime! Sou o Max, seu assistente virtual.<br><br>Especialistas em polimento, coating cerâmico, PPF e detalhamento premium aqui no Japão. Como posso te ajudar?",
+    quick: [
+      {msg:"Quais servicos voces oferecem?",label:"🔧 Serviços"},
+      {msg:"Quanto custa um coating ceramico?",label:"🛡️ Coating"},
+      {msg:"Quero agendar um polimento",label:"📅 Agendar"},
+      {msg:"Qual a diferenca entre coating e vitrificacao?",label:"💎 Dúvida técnica"}
+    ],
+    placeholder: "Digite sua mensagem...",
+    wa: "Falar com especialista no WhatsApp",
+    esc_title: "Especialista notificado",
+    esc_sub: "Um técnico entrará em contato via WhatsApp",
+    lang_instr: "Responda SEMPRE em portugues brasileiro, independente do idioma usado pelo cliente.",
+    locale: "pt-BR",
+    svcQ: "Quanto custa {n}?",
+    svcs: [
+      {i:"✨",n:"Polimento",p:"¥45.000"},
+      {i:"🛡",n:"Coating",p:"¥95.000"},
+      {i:"🎯",n:"PPF",p:"¥180.000+"},
+      {i:"🚗",n:"Detail",p:"¥68.000"},
+      {i:"🧹",n:"Higienização",p:"¥22.000"}
+    ]
+  },
+  ja: {
+    greeting: "こんにちは！AutoPrimeへようこそ！アシスタントのMaxです。<br><br>ポリッシング、セラミックコーティング、PPF、プレミアムディテーリングの専門店です。どのようにお手伝いしましょうか？",
+    quick: [
+      {msg:"どのようなサービスがありますか？",label:"🔧 サービス一覧"},
+      {msg:"セラミックコーティングの料金は？",label:"🛡️ コーティング料金"},
+      {msg:"ポリッシングを予約したいです",label:"📅 予約する"},
+      {msg:"コーティングとガラスコーティングの違いは？",label:"💎 技術的な質問"}
+    ],
+    placeholder: "メッセージを入力してください...",
+    wa: "WhatsAppで専門スタッフに相談する",
+    esc_title: "専門スタッフに通知しました",
+    esc_sub: "担当者がWhatsAppでご連絡いたします",
+    lang_instr: "お客様が使用する言語に関わらず、必ず日本語で丁寧に返信してください。",
+    locale: "ja-JP",
+    svcQ: "{n}の料金はいくらですか？",
+    svcs: [
+      {i:"✨",n:"ポリッシング",p:"¥45.000"},
+      {i:"🛡",n:"コーティング",p:"¥95.000"},
+      {i:"🎯",n:"PPF",p:"¥180.000+"},
+      {i:"🚗",n:"ディテール",p:"¥68.000"},
+      {i:"🧹",n:"クリーニング",p:"¥22.000"}
+    ]
+  },
+  en: {
+    greeting: "Hello! Welcome to AutoPrime! I'm Max, your virtual assistant.<br><br>Specialists in polishing, ceramic coating, PPF and premium detailing here in Japan. How can I help you?",
+    quick: [
+      {msg:"What services do you offer?",label:"🔧 Services"},
+      {msg:"How much is ceramic coating?",label:"🛡️ Coating"},
+      {msg:"I want to book a polishing",label:"📅 Book Now"},
+      {msg:"What's the difference between coating and sealant?",label:"💎 Technical Question"}
+    ],
+    placeholder: "Type your message...",
+    wa: "Talk to a specialist on WhatsApp",
+    esc_title: "Specialist notified",
+    esc_sub: "A technician will contact you via WhatsApp shortly",
+    lang_instr: "ALWAYS reply in English, regardless of the language the customer uses.",
+    locale: "en-US",
+    svcQ: "How much is {n}?",
+    svcs: [
+      {i:"✨",n:"Polishing",p:"¥45,000"},
+      {i:"🛡",n:"Coating",p:"¥95,000"},
+      {i:"🎯",n:"PPF",p:"¥180,000+"},
+      {i:"🚗",n:"Detail",p:"¥68,000"},
+      {i:"🧹",n:"Cleaning",p:"¥22,000"}
+    ]
+  }
+};
+let LANG = 'pt';
+
+function detectLang(){
+  const nav = (navigator.language||'pt').toLowerCase();
+  if(nav.startsWith('ja')) return 'ja';
+  if(nav.startsWith('en')) return 'en';
+  return 'pt';
+}
+
+function renderSvcs(){
+  const t = I18N[LANG];
+  const s = document.getElementById('svcs');
+  s.innerHTML = '';
+  t.svcs.forEach(sv=>{
+    const d = document.createElement('div');
+    d.className='sc';
+    d.innerHTML=`<div class="sn">${sv.i} ${sv.n}</div><div class="sp">${sv.p}</div>`;
+    d.onclick=()=>send(t.svcQ.replace('{n}', sv.n));
+    s.appendChild(d);
+  });
+}
+
+function applyLangUI(){
+  const t = I18N[LANG];
+  document.querySelectorAll('.lgb').forEach(b=>b.classList.toggle('active', b.dataset.lang===LANG));
+  document.getElementById('inp').placeholder = t.placeholder;
+  document.getElementById('waText').textContent = t.wa;
+  document.querySelector('#esc .et strong').textContent = t.esc_title;
+  document.querySelector('#esc .et span').textContent = t.esc_sub;
+  renderSvcs();
+  if(hist.length===0){
+    document.querySelector('#m0 .bb.b').innerHTML = t.greeting;
+    document.getElementById('qr').innerHTML = t.quick.map(q=>`<button class="qb" onclick="send('${q.msg.replace(/'/g,"\\'")}')">${q.label}</button>`).join('');
+    document.getElementById('dlbl').textContent = new Date().toLocaleDateString(t.locale,{weekday:'long',day:'2-digit',month:'long'}).toUpperCase();
+  }
+}
+
+function switchLang(l){ LANG = l; applyLangUI(); }
+
 function getDateContext(){
   const d = new Date();
-  const weekday = d.toLocaleDateString('pt-BR',{weekday:'long'});
-  const full = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+  const loc = I18N[LANG].locale;
+  const weekday = d.toLocaleDateString(loc,{weekday:'long'});
+  const full = d.toLocaleDateString(loc,{day:'2-digit',month:'long',year:'numeric'});
   return `DATA DE HOJE: ${weekday}, ${full}\nUse esta data como referencia exata para calcular corretamente qualquer dia da semana mencionado pelo cliente (hoje, amanha, "sabado que vem", datas especificas, etc). NUNCA adivinhe ou calcule o dia da semana de cabeca — baseie-se sempre nesta data de hoje informada aqui.\n\n`;
 }
-const SYSTEM = getDateContext() + `Voce e o Max, assistente virtual da AutoPrime Estetica Automotiva — especializada em estetica e protecao de veiculos de alto padrao no Japao.
+
+const BASE_SYSTEM = `Voce e o Max, assistente virtual da AutoPrime Estetica Automotiva — especializada em estetica e protecao de veiculos de alto padrao no Japao.
 Tom: descontraido mas profissional, direto, conhecimento tecnico sem ser arrogante. Emojis com moderacao.
 
 SERVICOS E PRECOS (em iene):
@@ -140,27 +257,37 @@ AGENDAMENTO: colete nome, veiculo (marca/modelo/ano), servico, profissional pref
 
 Quando o cliente confirmar, use a ferramenta reservar_horario com os dados coletados (no campo servico, inclua tambem o veiculo).
 
-Se a ferramenta retornar sucesso=true: diga "Vou conectar voce com um dos nossos especialistas agora! Aguarda um momento que ja entram em contato." e informe qual profissional foi confirmado.
+Se a ferramenta retornar sucesso=true: confirme o agendamento de forma calorosa (no idioma da conversa), informe qual profissional foi confirmado, e avise que um especialista entrara em contato em breve pelo WhatsApp. Termine OBRIGATORIAMENTE a mensagem com a marca exata [[HANDOFF]] no final (essa marca e um codigo interno, nunca a traduza, explique ou omita).
 
 Se a ferramenta retornar sucesso=false com alternativas: peca desculpas educadamente, explique que esse horario acabou de ser reservado por outro cliente, e apresente as alternativas retornadas de forma clara. Pergunte qual o cliente prefere e chame a ferramenta novamente com a escolha.
 
-NUNCA diga que um agendamento esta confirmado sem antes ter chamado a ferramenta reservar_horario e recebido sucesso=true. Isso e obrigatorio.
+NUNCA diga que um agendamento esta confirmado sem antes ter chamado a ferramenta reservar_horario e recebido sucesso=true. Isso e obrigatorio.`;
 
-Responda em portugues brasileiro. Seja objetivo.`;
-
-const SVCS=[{i:"✨",n:"Polimento",p:"¥45.000"},{i:"🛡",n:"Coating",p:"¥95.000"},{i:"🎯",n:"PPF",p:"¥180.000+"},{i:"🚗",n:"Detail",p:"¥68.000"},{i:"🧹",n:"Higienização",p:"¥22.000"}];
+function buildSystem(){
+  return getDateContext() + BASE_SYSTEM + '\n\n' + I18N[LANG].lang_instr + ' Seja objetivo.';
+}
 
 let hist=[],esc=false,msgCount=0;
 
+async function loadWaNumber(){
+  try{
+    const r = await fetch(`${WORKER}?config=autoprime`);
+    const d = await r.json();
+    if(d.wa) document.getElementById('wa').href = `https://wa.me/${d.wa}`;
+    else document.getElementById('wa').style.display = 'none';
+  }catch(e){
+    document.getElementById('wa').style.display = 'none';
+  }
+}
+
 function init(){
-  document.getElementById('dlbl').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'}).toUpperCase();
+  LANG = detectLang();
+  applyLangUI();
   document.getElementById('t0').textContent=now();
   setTimeout(()=>show('m0'),300);
-  const s=document.getElementById('svcs');
-  SVCS.forEach(sv=>{const d=document.createElement('div');d.className='sc';d.innerHTML=`<div class="sn">${sv.i} ${sv.n}</div><div class="sp">${sv.p}</div>`;d.onclick=()=>send(`Quanto custa ${sv.n}?`);s.appendChild(d)});
-  document.getElementById('wa').href=`https://wa.me/${WA_NUM}`;
+  loadWaNumber();
 }
-function now(){return new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
+function now(){return new Date().toLocaleTimeString(I18N[LANG].locale,{hour:'2-digit',minute:'2-digit'})}
 function show(id){const el=document.getElementById(id);if(!el)return;requestAnimationFrame(()=>requestAnimationFrame(()=>{el.classList.add('on');scroll()}))}
 function scroll(){const a=document.getElementById('anc');if(a)a.scrollIntoView({behavior:'auto',block:'end'})}
 function addMsg(role,text){
@@ -172,32 +299,27 @@ function addMsg(role,text){
   c.insertBefore(row,anc);show(id);
 }
 function showTyping(){
-  const c=document.getElementById('msgs');
-  const anc=document.getElementById('anc');
-  const el=document.createElement('div');
-  el.className='tp on';
-  el.id='tp-dynamic';
+  const c=document.getElementById('msgs');const anc=document.getElementById('anc');
+  const el=document.createElement('div');el.className='tp on';el.id='tp-dynamic';
   el.innerHTML='<div class="ma">🚗</div><div class="tb"><div class="d"></div><div class="d"></div><div class="d"></div></div>';
-  c.insertBefore(el,anc);
-  scroll();
+  c.insertBefore(el,anc);scroll();
 }
-function hideTyping(){
-  const el=document.getElementById('tp-dynamic');
-  if(el) el.remove();
-}
+function hideTyping(){const el=document.getElementById('tp-dynamic');if(el)el.remove();}
 async function send(text){
   const inp=document.getElementById('inp');const msg=text||inp.value.trim();if(!msg)return;
   document.getElementById('qr').style.display='none';addMsg('u',msg);inp.value='';inp.style.height='auto';upd();
   hist.push({role:'user',content:msg});showTyping();scroll();
   try{
-    const res=await fetch(WORKER,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-5',max_tokens:1000,system:SYSTEM,messages:hist.slice(-12),business:'autoprime'})});
+    const res=await fetch(WORKER,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-5',max_tokens:1000,system:buildSystem(),messages:hist.slice(-12),business:'autoprime'})});
     hideTyping();
     const raw=await res.text();let reply='';let apiErrMsg='';
     try{const data=JSON.parse(raw);if(data.error){apiErrMsg=data.error.message||JSON.stringify(data.error);throw new Error(apiErrMsg)}reply=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim()}
     catch(e){if(!apiErrMsg){const m=raw.match(/"text":"((?:[^"\\]|\\.)*)"/);if(m)reply=m[1].replace(/\\n/g,'\n').replace(/\\"/g,'"')}}
     if(!reply)reply=apiErrMsg?('⚠️ Erro da API: '+apiErrMsg):'Desculpe, tive um problema. Tenta de novo!';
+    let handoff=false;
+    if(reply.includes('[[HANDOFF]]')){handoff=true;reply=reply.replace('[[HANDOFF]]','').trim();}
     hist.push({role:'assistant',content:reply});addMsg('b',reply);
-    if(!esc&&(reply.includes('especialistas agora')||reply.includes('entram em contato'))){esc=true;setTimeout(()=>document.getElementById('esc').classList.add('on'),400);scroll()}
+    if(handoff&&!esc){esc=true;setTimeout(()=>document.getElementById('esc').classList.add('on'),400);scroll()}
   }catch(e){hideTyping();addMsg('b','Ops! Problema tecnico. Tenta de novo em instantes!')}
 }
 function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px'}
