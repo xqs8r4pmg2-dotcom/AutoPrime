@@ -229,39 +229,7 @@ function getDateContext(){
   return `DATA DE HOJE: ${weekday}, ${full}\nUse esta data como referencia exata para calcular corretamente qualquer dia da semana mencionado pelo cliente (hoje, amanha, "sabado que vem", datas especificas, etc). NUNCA adivinhe ou calcule o dia da semana de cabeca — baseie-se sempre nesta data de hoje informada aqui.\n\n`;
 }
 
-const BASE_SYSTEM = `Voce e o Max, assistente virtual da AutoPrime Estetica Automotiva — especializada em estetica e protecao de veiculos de alto padrao no Japao.
-Tom: descontraido mas profissional, direto, conhecimento tecnico sem ser arrogante. Emojis com moderacao.
-
-SERVICOS E PRECOS (em iene):
-- Polimento Tecnico Simples (1 etapa): 15000 yen
-- Polimento Tecnico Completo (2 etapas): 28000 yen
-- Polimento Espelhado Premium (3 etapas): 45000 yen
-- Vitrificacao de Pintura (12 meses): 35000 yen
-- Coating Ceramico 9H (3-5 anos): 95000 yen
-- PPF Pelicula Protetora: 180000 a 480000 yen conforme cobertura
-- Higienizacao Interna: 12000 yen
-- Higienizacao Completa: 22000 yen
-- Ozonio: 8000 yen
-- Detail Completo: 68000 yen
-- Lavagem Premium: 5500 yen
-- Cristalizacao de Vidros: 12000 yen
-
-PROFISSIONAIS: Bruno (polimentos), Diego (coating e PPF), Thiago (higienizacao)
-HORARIOS: Segunda a Sabado, 8h as 18h
-LOCALIZACAO: Aichi-ken, Nagoya
-TEMPO MEDIO: polimento simples 4h | coating 8h | detail completo 1 dia
-PAGAMENTOS: Pix, transferencia bancaria japonesa, cartao
-BUSCA E ENTREGA: disponivel para servicos acima de 50000 yen (raio 20km)
-
-AGENDAMENTO: colete nome, veiculo (marca/modelo/ano), servico, profissional preferido (ou "qualquer"), dia (calcule a data exata no formato AAAA-MM-DD usando a DATA DE HOJE informada acima) e horario (HH:MM). Repita e confirme todos os detalhes verbalmente com o cliente ANTES de chamar a ferramenta.
-
-Quando o cliente confirmar, use a ferramenta reservar_horario com os dados coletados (no campo servico, inclua tambem o veiculo).
-
-Se a ferramenta retornar sucesso=true: confirme o agendamento de forma calorosa (no idioma da conversa), informe qual profissional foi confirmado, e avise que um especialista entrara em contato em breve pelo WhatsApp. Termine OBRIGATORIAMENTE a mensagem com a marca exata [[HANDOFF]] no final (essa marca e um codigo interno, nunca a traduza, explique ou omita).
-
-Se a ferramenta retornar sucesso=false com alternativas: peca desculpas educadamente, explique que esse horario acabou de ser reservado por outro cliente, e apresente as alternativas retornadas de forma clara. Pergunte qual o cliente prefere e chame a ferramenta novamente com a escolha.
-
-NUNCA diga que um agendamento esta confirmado sem antes ter chamado a ferramenta reservar_horario e recebido sucesso=true. Isso e obrigatorio.`;
+const BASE_SYSTEM = `(o prompt agora fica no servidor)`;
 
 function buildSystem(){
   return getDateContext() + BASE_SYSTEM + '\n\n' + I18N[LANG].lang_instr + ' Seja objetivo.';
@@ -311,7 +279,7 @@ async function send(text){
   document.getElementById('qr').style.display='none';addMsg('u',msg);inp.value='';inp.style.height='auto';upd();
   hist.push({role:'user',content:msg});showTyping();scroll();
   try{
-    const res=await fetch(WORKER,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-5',max_tokens:1000,system:buildSystem(),messages:hist.slice(-12),business:'autoprime'})});
+    const res=await fetch(WORKER,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist.slice(-12),business:'autoprime',lang:LANG})});
     hideTyping();
     const raw=await res.text();let reply='';let apiErrMsg='';
     try{const data=JSON.parse(raw);if(data.error){apiErrMsg=data.error.message||JSON.stringify(data.error);throw new Error(apiErrMsg)}reply=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim()}
